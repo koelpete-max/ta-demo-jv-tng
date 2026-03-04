@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="PlaywrightSuite"
+       parallel="methods"
+       thread-count="8"
+       data-provider-thread-count="8">
+    <parameter name="testng.singleThreaded" value="false"/>
+    <test name="UI Tests">
+        <classes>
+            <class name="com.example.tests.EFinancePageBasicTests"/>
+            <class name="com.example.tests.EFinanceHomeTransactionOverviewTests" />
+            <class name="com.example.tests.MerchantPortalPageBasicTests"></class>
+        </classes>
+    </test>
+</suite>
