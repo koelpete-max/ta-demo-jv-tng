@@ -17,12 +17,9 @@ ui_tests:
     - echo "HEADLESS = $HEADLESS"
     - echo "LANGUAGE = $LANGUAGE"
     - curl -I "$BASE_URL" || echo "curl failed"
-    # 1) Tests ausführen, Allure-Results nach target/allure-results schreiben
-    - mvn $MAVEN_CLI_OPTS clean test \
-      -Dsurefire.suiteXmlFiles=testng.xml \
-      -Dlang=$LANGUAGE \
-      -Dallure.results.directory=target/allure-results
-    # 2) Allure-Report generieren (HTML unter target/site/allure-maven-plugin)
+    # 1) Tests mit Allure-Results
+    - mvn $MAVEN_CLI_OPTS clean test -Dsurefire.suiteXmlFiles=testng.xml -Dlang=$LANGUAGE -Dallure.results.directory=target/allure-results
+    # 2) Allure-Report generieren
     - mvn $MAVEN_CLI_OPTS allure:report
 
   artifacts:
@@ -32,12 +29,11 @@ ui_tests:
       junit:
         - target/surefire-reports/*.xml
     paths:
-      # wie bisher für GitLab Test-Summary
       - target/surefire-reports/
       - test-output/
-      # NEU: Allure Ergebnisse (JSON) + HTML-Report
       - target/allure-results/
       - target/site/allure-maven-plugin/
+
 #image: mcr.microsoft.com/playwright/java:v1.56.0-jammy
 #
 #stages:
