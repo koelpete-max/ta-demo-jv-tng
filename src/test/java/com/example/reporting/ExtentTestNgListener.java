@@ -2,6 +2,7 @@ package com.example.reporting;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.example.base.BaseTest;
+import com.example.utils.ScreenShotUtil;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -36,6 +37,8 @@ public class ExtentTestNgListener implements ITestListener  {
                     String relativeToReport = "screenshots/" + fileName;
                     test.addScreenCaptureFromPath(relativeToReport, "Failure screenshot");
                 }
+
+                ScreenShotUtil.attachScreenshotToAllure(base.page(), result.getName());
             }
             test.fail(result.getThrowable());
         }
@@ -45,6 +48,13 @@ public class ExtentTestNgListener implements ITestListener  {
     public void onTestSkipped(ITestResult result) {
         ExtentTest test = ReportManager.getTest();
         if (test != null) {
+            Object instance = result.getInstance();
+
+            if (instance instanceof BaseTest base) {
+                // optional: Screenshot auch bei Skips
+                ScreenShotUtil.attachScreenshotToAllure(base.page(), result.getName() + " (skipped)");
+            }
+
             if (result.getThrowable() != null) {
                 test.skip(result.getThrowable());
             } else {

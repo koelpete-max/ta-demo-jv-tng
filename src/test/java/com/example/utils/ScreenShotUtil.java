@@ -1,6 +1,8 @@
 package com.example.utils;
 
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Page.ScreenshotOptions;
+import io.qameta.allure.Allure;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,5 +30,19 @@ public class ScreenShotUtil {
             System.err.println("Failed to create screenshot directory or save screenshot: " + e.getMessage());
             return null;
         }
+
+    }
+
+    public static void attachScreenshotToAllure(Page page, String name) {
+        if (page == null) {
+            return;
+        }
+        byte[] bytes = page.screenshot(new ScreenshotOptions().setFullPage(true));
+        Allure.getLifecycle().addAttachment(
+                name,           // Name in Allure UI
+                "image/png",    // MIME-Type
+                "png",          // Dateiendung
+                bytes           // Inhalt
+        );
     }
 }

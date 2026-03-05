@@ -54,7 +54,7 @@ public abstract class BaseTest {
 
     protected TestComponent di()            { return TL_DI.get(); }
     protected TestContext ctx()             { return TL_CTX.get(); }
-    protected Page page()                   { return TL_PAGE.get(); }
+    public Page page()                   { return TL_PAGE.get(); }
     protected StartPage homePage()          { return TL_HOME.get(); }
     protected EFinanceTopNavigationBar eFinanceTopNavigationBar() { return TL_NAV.get(); }
     protected TopbarPanel topbarPanel()     { return TL_TOPBAR.get(); }
