@@ -2,13 +2,15 @@ package com.example.reporting;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.example.base.BaseTest;
-import com.example.utils.ScreenShotUtil;
+import com.example.utils.AllureAttachments;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import java.nio.file.Paths;
 
+@Slf4j
 public class ExtentTestNgListener implements ITestListener  {
 
     @Override
@@ -38,7 +40,8 @@ public class ExtentTestNgListener implements ITestListener  {
                     test.addScreenCaptureFromPath(relativeToReport, "Failure screenshot");
                 }
 
-                ScreenShotUtil.attachScreenshotToAllure(base.page(), result.getName());
+                log.error("===> Test failed: {}", result.getName());
+                AllureAttachments.attachScreenshot(result.getName(), base.page());
             }
             test.fail(result.getThrowable());
         }
@@ -52,7 +55,7 @@ public class ExtentTestNgListener implements ITestListener  {
 
             if (instance instanceof BaseTest base) {
                 // optional: Screenshot auch bei Skips
-                ScreenShotUtil.attachScreenshotToAllure(base.page(), result.getName() + " (skipped)");
+                AllureAttachments.attachScreenshot(result.getName() + " (skipped)", base.page());
             }
 
             if (result.getThrowable() != null) {

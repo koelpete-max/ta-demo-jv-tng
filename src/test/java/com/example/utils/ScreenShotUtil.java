@@ -33,16 +33,4 @@ public class ScreenShotUtil {
 
     }
 
-    public static void attachScreenshotToAllure(Page page, String name) {
-        if (page == null) {
-            return;
-        }
-        byte[] bytes = page.screenshot(new ScreenshotOptions().setFullPage(true));
-        Allure.getLifecycle().addAttachment(
-                name,           // Name in Allure UI
-                "image/png",    // MIME-Type
-                "png",          // Dateiendung
-                bytes           // Inhalt
-        );
-    }
 }
