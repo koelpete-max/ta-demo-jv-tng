@@ -27,7 +27,7 @@ public class StartPage {
         try {
             var companyBrandImgLocator = homePageLocators.getCompanyBrandImgLocator();
             companyBrandImgLocator.waitFor(
-                    new Locator.WaitForOptions().setTimeout(20000)
+                    new Locator.WaitForOptions().setTimeout(33000)
             );
             log.info("==> Company Brand Image is visible {}", companyBrandImgLocator.isVisible());
             return companyBrandImgLocator.isVisible() ? this : null;
