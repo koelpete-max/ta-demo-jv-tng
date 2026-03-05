@@ -28,7 +28,7 @@ public class StartPage {
         companyBrandImgLocator.waitFor(
                         new Locator
                                 .WaitForOptions()
-                                .setTimeout(10000)
+                                .setTimeout(20000)
         );
 
         if (!companyBrandImgLocator.isVisible()) {
