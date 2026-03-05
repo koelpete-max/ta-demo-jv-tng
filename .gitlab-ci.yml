@@ -16,6 +16,7 @@ ui_tests:
     - echo "BASE_URL = $BASE_URL"
     - echo "HEADLESS = $HEADLESS"
     - echo "LANGUAGE = $LANGUAGE"
+    - curl -I "$BASE_URL" || echo "curl failed"
     - mvn $MAVEN_CLI_OPTS clean test -Dsurefire.suiteXmlFiles=testng.xml -Dlang=$LANGUAGE
 
 

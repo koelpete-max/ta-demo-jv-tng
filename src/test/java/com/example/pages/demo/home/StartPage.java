@@ -22,21 +22,25 @@ public class StartPage {
     }
 
     public StartPage navigateTo(String url) {
+        log.info("Navigating to URL: '{}'", url);
         page.navigate(url);
-        var companyBrandImgLocator = homePageLocators.getCompanyBrandImgLocator();
-
-        companyBrandImgLocator.waitFor(
-                        new Locator
-                                .WaitForOptions()
-                                .setTimeout(20000)
-        );
-
-        if (!companyBrandImgLocator.isVisible()) {
-            throw new IllegalStateException("StartPage.navigateTo: Company brand image not visible");
+        try {
+            var companyBrandImgLocator = homePageLocators.getCompanyBrandImgLocator();
+            companyBrandImgLocator.waitFor(
+                    new Locator.WaitForOptions().setTimeout(20000)
+            );
+            log.info("==> Company Brand Image is visible {}", companyBrandImgLocator.isVisible());
+            return companyBrandImgLocator.isVisible() ? this : null;
+        } catch (Exception e) {
+            log.error("Failed to wait for company brand image, URL='{}'", page.url(), e);
+            // Nur im CI: Screenshot machen und als Artifact sammeln
+            try {
+                page.screenshot(new Page.ScreenshotOptions()
+                        .setPath(java.nio.file.Paths.get("artifacts/startpage-timeout.png"))
+                        .setFullPage(true));
+            } catch (Exception ignored) {}
+            throw e;
         }
-
-        log.info("==> Company Brand Image is visible {}", companyBrandImgLocator.isVisible());
-        return companyBrandImgLocator.isVisible() ? this : null;
     }
 
 }
