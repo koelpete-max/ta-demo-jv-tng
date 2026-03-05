@@ -5,12 +5,15 @@ import com.example.pages.demo.efinance.EFinanceMenuByLanguage;
 import com.example.pages.demo.efinance.EFinanceNavigationBarMenu;
 import com.example.pages.demo.home.TopbarPanelText;
 import com.example.pages.demo.home.TopbarPanelUrl;
+import io.qameta.allure.*;
+
 import org.testng.Assert;
-import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+@Epic("PF Demo")
+@Feature("E-Finance Basic navigation")
 public class EFinancePageBasicTests extends BaseTest {
 
     @BeforeMethod(alwaysRun = true)
@@ -23,6 +26,9 @@ public class EFinancePageBasicTests extends BaseTest {
         );
     }
 
+    @Story("Home Page Aufruf")
+    @Description("Verify that the home page is properly loaded.")
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void verifyHomePageTest() {
         testLog().step("Home Page Test");
@@ -36,6 +42,9 @@ public class EFinancePageBasicTests extends BaseTest {
         testLog().step("Home Page successfully loaded");
     }
 
+    @Story("Home Page Negative URL")
+    @Description("Verifying Home Page Negative Test - Invalid URL\"")
+    @Severity(SeverityLevel.NORMAL)
     @Test()
     public void verifyHomePagePartialUrlTest() {
 
@@ -51,10 +60,6 @@ public class EFinancePageBasicTests extends BaseTest {
                         partialUrl
                 )
         );
-
-//        if (topbarPanel().isPanelVisible()) {
-//            throw new SkipException("Known issue: test will be skipped");
-//        }
 
         Assert.assertFalse(
                 topbarPanel().isPanelVisible(),
@@ -78,6 +83,7 @@ public class EFinancePageBasicTests extends BaseTest {
         };
     }
 
+    @Step("Opening E-Finance page '{menuItem}'")
     @Test(dataProvider = "menuData", priority = 2)
     public void verifyEFinanceNavigationBarsTest(EFinanceNavigationBarMenu menuItem) {
         testLog().step(String.format(

@@ -10,20 +10,26 @@ import com.example.pages.demo.efinance.EFinanceTopNavigationBar;
 import com.example.pages.demo.efinance.transactionoverview.EFinanceTransactionOverviewFrame;
 import com.example.pages.demo.home.StartPage;
 import com.example.pages.demo.home.TopbarPanel;
+import com.example.reporting.AllureAttachments;
 import com.example.reporting.ExtentManager;
 import com.example.reporting.ReportManager;
 import com.example.reporting.TestLogger;
 import com.example.utils.EnvConfig;
 import com.example.utils.ScreenShotUtil;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.testng.AllureTestNg;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 
 @Slf4j
-@Listeners({ com.example.reporting.ExtentTestNgListener.class })
+@Listeners({
+        com.example.reporting.ExtentTestNgListener.class,
+        AllureTestNg.class
+})
 public abstract class BaseTest {
 
     public Language language;
@@ -91,8 +97,20 @@ public abstract class BaseTest {
     @AfterMethod(alwaysRun = true)
     public void tearDownTest(ITestResult result) {
         try {
+            if (!result.isSuccess()) {
+                String screenshotName = result.getMethod().getMethodName() + "_" + result.getStatus();
+                String path = captureScreenshotForListener(screenshotName);
+                if (path != null) {
+                    AllureAttachments.attachScreenshot(Path.of(path), screenshotName);
+                }
+            }
+
             TestContext ctx = TL_CTX.get();
-            if (ctx != null) ctx.close();
+            if (ctx != null) {
+
+                ctx.close();
+            }
+
         } finally {
             TL_FRAME.remove();
             TL_TOPBAR.remove();
