@@ -1,5 +1,6 @@
 package com.example.pages.demo.home;
 
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,11 @@ public class TopbarPanel {
         var locator = page.locator("//*[@data-testid='platform-switch-item-content' " +
                 "and contains(text(), '" + menu.toString() + "')]");    //(":span:has-text(" + menu.toString() + ")");
         locator.click();
+        page.waitForURL(expectedUrl,
+                new Page.WaitForURLOptions().setTimeout(33000)
+        );
 
+        var pageUrl = page.url();
         return page.url().equals(expectedUrl);
     }
 

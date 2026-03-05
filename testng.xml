@@ -8,7 +8,7 @@
         <classes>
             <class name="com.example.tests.EFinancePageBasicTests"/>
             <class name="com.example.tests.EFinanceHomeTransactionOverviewTests" />
-<!--            <class name="com.example.tests.MerchantPortalPageBasicTests"></class>-->
+            <class name="com.example.tests.MerchantPortalPageBasicTests"></class>
         </classes>
     </test>
 </suite>

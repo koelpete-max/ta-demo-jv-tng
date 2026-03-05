@@ -52,9 +52,9 @@ public class EFinancePageBasicTests extends BaseTest {
                 )
         );
 
-        if (topbarPanel().isPanelVisible()) {
-            throw new SkipException("Known issue: test will be skipped");
-        }
+//        if (topbarPanel().isPanelVisible()) {
+//            throw new SkipException("Known issue: test will be skipped");
+//        }
 
         Assert.assertFalse(
                 topbarPanel().isPanelVisible(),

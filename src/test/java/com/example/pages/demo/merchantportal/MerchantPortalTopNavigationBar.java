@@ -7,6 +7,7 @@ public class MerchantPortalTopNavigationBar implements INavigationBar {
 
     @Override
     public boolean clickOnMenu(EFinanceNavigationBarMenu sidePanelItem) {
+
         return false;
     }
 }

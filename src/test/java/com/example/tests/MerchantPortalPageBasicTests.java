@@ -8,13 +8,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class MerchantPortalPageBasicTests extends BaseTest {
+    private boolean isMerchantPortalPageVisible = false;
 
     @BeforeMethod
     public void navigateToHomeEFinancePage() {
         navigateToHomePage(BASE_URL);
 
-        topbarPanel().clickOnPageItem(
-                TopbarPanelText.EFINANCE,
+        isMerchantPortalPageVisible = topbarPanel().clickOnPageItem(
+                TopbarPanelText.MERCHANTPORTAL,
                 TopbarPanelUrl.getUrl.get(TopbarPanelText.MERCHANTPORTAL)
         );
     }
@@ -24,11 +25,9 @@ public class MerchantPortalPageBasicTests extends BaseTest {
         testLog().step("Merchant Portal Page Test");
 
         testLog().step("Asserting that Portal page is loaded");
-        boolean isPanelVisible = true;
-
         Assert.assertTrue(
-                isPanelVisible,
-                "Failed to load home page '" + BASE_URL + "'"
+                isMerchantPortalPageVisible,
+                "Failed to load Merchant Portal Page '" + BASE_URL + "'"
         );
 
         testLog().step("Merchant Portal Page successfully loaded");
