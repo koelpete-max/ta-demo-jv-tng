@@ -4,6 +4,9 @@
        thread-count="8"
        data-provider-thread-count="8">
     <parameter name="testng.singleThreaded" value="false"/>
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
     <test name="UI Tests">
         <classes>
             <class name="com.example.tests.EFinancePageBasicTests"/>
