@@ -8,7 +8,6 @@ variables:
   BASE_URL: "https://www.postfinance.ch/ap/ga/ob/html/finance"
   HEADLESS: "true"
   LANGUAGE: "DE"
-#  CHECK_WIZARD: "true"
 
 ui_tests:
   stage: test
@@ -18,13 +17,23 @@ ui_tests:
     - echo "LANGUAGE = $LANGUAGE"
     - curl -I "$BASE_URL" || echo "curl failed"
 
-    # 1) Tests ausführen, Allure-Results nach target/allure-results
-    - mvn $MAVEN_CLI_OPTS clean test -Dlang=$LANGUAGE -Dallure.results.directory=target/allure-results
+    # 1) Tests laufen lassen, Exit-Code merken
+    - |
+      set +e
+      mvn $MAVEN_CLI_OPTS clean test \
+        -Dlang=$LANGUAGE \
+        -Dallure.results.directory=target/allure-results
+      TEST_EXIT_CODE=$?
+      set -e
 
-    # 2) Allure-HTML-Report generieren (explizit mit GAV)
-    - mvn $MAVEN_CLI_OPTS io.qameta.allure:allure-maven:2.12.0:report \
-      -Dallure.results.directory=target/allure-results \
-      -Dallure.report.directory=target/site/allure-maven-plugin
+    # 2) Allure-Report IMMER generieren (auch wenn Tests fehlschlagen)
+    - mvn $MAVEN_CLI_OPTS allure:report || true
+
+    # 3) Sicherstellen, dass das Verzeichnis existiert (gegen Warnung)
+    - mkdir -p target/site/allure-maven-plugin
+
+    # 4) Job-Exitcode = Test-Exitcode
+    - exit $TEST_EXIT_CODE
 
   artifacts:
     when: always
